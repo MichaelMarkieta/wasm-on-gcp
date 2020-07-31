@@ -6,7 +6,7 @@ const dataset = bigquery.dataset('analytics');
 const table = dataset.table('functions');
 
 function insertHandler(err, apiResponse) {
-  return err
+  console.error(err);
 }
 
 exports.load = (message, context) => {
@@ -14,5 +14,5 @@ exports.load = (message, context) => {
   const data = JSON.parse(datastring);
   console.log(`Message ${datastring} retrieved from PubSub.`);
 
-  table.insert(data, insertHandler).catch(console.error);
+  table.insert(data, insertHandler)
 };
