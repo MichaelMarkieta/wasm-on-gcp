@@ -1,0 +1,19 @@
+name: Functions - Collect
+on:
+  push:
+    branches: [ master ]
+    paths:
+      - functions/collect/**/*
+jobs:
+  functions-collect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions-hub/gcloud@master
+        name: "deploy collect function"
+        env:
+          PROJECT_ID: mm-sandbox-wasm-on-gcp
+          APPLICATION_CREDENTIALS: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+        with:
+          args: functions deploy collect --region us-central1 --source $GITHUB_WORKSPACE/functions/collect  --entry-point collect --trigger-http --runtime nodejs10
+          cli: gcloud

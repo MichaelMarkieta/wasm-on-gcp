@@ -1,0 +1,27 @@
+name: Endpoints
+on:
+  push:
+    branches: [ master ]
+    paths:
+      - endpoints.yaml
+jobs:
+  endpoints:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions-hub/gcloud@master
+        name: "deploy cloud endpoint"
+        env:
+          PROJECT_ID: mm-sandbox-wasm-on-gcp
+          APPLICATION_CREDENTIALS: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+        with:
+          args: endpoints services deploy $GITHUB_WORKSPACE/endpoints.yaml
+          cli: gcloud
+      - uses: actions-hub/gcloud@master
+        name: "update esp in cloud run"
+        env:
+          PROJECT_ID: mm-sandbox-wasm-on-gcp
+          APPLICATION_CREDENTIALS: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+        with:
+          args: run services update endpoints --set-env-vars ENDPOINTS_SERVICE_NAME=endpoints-5fbiknk2ba-uc.a.run.app --region us-central1 --platform managed
+          cli: gcloud

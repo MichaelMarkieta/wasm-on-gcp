@@ -1,0 +1,19 @@
+name: Functions - Load
+on:
+  push:
+    branches: [ master ]
+    paths:
+      - functions/load/**/*
+jobs:
+  functions-load:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions-hub/gcloud@master
+        name: "deploy load function"
+        env:
+          PROJECT_ID: mm-sandbox-wasm-on-gcp
+          APPLICATION_CREDENTIALS: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+        with:
+          args: functions deploy load --region us-central1 --source $GITHUB_WORKSPACE/functions/load  --entry-point load --trigger-topic wasm-on-gcp --runtime nodejs10
+          cli: gcloud
