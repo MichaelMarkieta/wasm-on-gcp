@@ -7,15 +7,6 @@ const table = dataset.table('functions');
 
 function insertHandler(err, apiResponse) {
   console.error(err);
-  if (err.name === 'PartialFailureError') {
-    for (const x of err.errors){
-      console.log(err.errors[x-1].row);
-      for (const y of err.errors[x-1].errors){
-        console.log(err.errors[x-1].errors[y-1].reason);
-        console.log(err.errors[x-1].errors[y-1].message);
-      }
-    }
-  }
 }
 
 exports.load = (message, context) => {
@@ -23,5 +14,5 @@ exports.load = (message, context) => {
   const data = JSON.parse(datastring);
   console.log(`Message ${datastring} retrieved from PubSub.`);
 
-  table.insert(data, insertHandler)
+  table.insert([data], insertHandler)
 };
