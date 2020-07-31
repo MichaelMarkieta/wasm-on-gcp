@@ -9,10 +9,10 @@ function insertHandler(err, apiResponse) {
   console.error(err);
   if (err.name === 'PartialFailureError') {
     for (const x of err.errors){
-      console.log(err.errors[x].row);
-      for (const y of err.errors[x].errors){
-        console.log(err.errors[x].errors[y].reason);
-        console.log(err.errors[x].errors[y].message);
+      console.log(err.errors[x-1].row);
+      for (const y of err.errors[x-1].errors){
+        console.log(err.errors[x-1].errors[y-1].reason);
+        console.log(err.errors[x-1].errors[y-1].message);
       }
     }
   }
