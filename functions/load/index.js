@@ -7,6 +7,15 @@ const table = dataset.table('functions');
 
 function insertHandler(err, apiResponse) {
   console.error(err);
+  if (err.name === 'PartialFailureError') {
+    for (const x of err.errors){
+      console.log(err.errors[x].row);
+      for (const y of err.errors[x].errors){
+        console.log(err.errors[x].errors[y].reason);
+        console.log(err.errors[x].errors[y].message);
+      }
+    }
+  }
 }
 
 exports.load = (message, context) => {
