@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"runtime"
 	"syscall/js"
+	"time"
 )
 
 // getCallerFuncName returns the name of the caller 2 levels deep (e.g. fizz)
@@ -19,7 +20,8 @@ func getCallerFuncName() (callerFuncName string) {
 // collect sends an HTTP request to our analytics collection endpoint
 func collect(apikey string) (err error) {
 	callerFuncName := getCallerFuncName()
-	resp, err := http.Get(fmt.Sprintf("https://endpoints-5fbiknk2ba-uc.a.run.app/collect?key=%s&feature=%s", apikey, callerFuncName))
+	ts := time.Now().UTC()
+	resp, err := http.Get(fmt.Sprintf("https://endpoints-5fbiknk2ba-uc.a.run.app/collect?key=%s&function=%s&ts=%s", apikey, callerFuncName, ts))
 	if err != nil {
 		log.Printf("Failed to send analytics: %s", err)
 		return err
