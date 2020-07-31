@@ -1,0 +1,63 @@
+name: CI
+on:
+  push:
+    branches: [ master ]
+    paths:
+      - client/**/*
+jobs:
+  cloudendpoints:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions-hub/gcloud@master
+        name: "deploy cloud endpoint"
+        env:
+          PROJECT_ID: mm-sandbox-wasm-on-gcp
+          APPLICATION_CREDENTIALS: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+        with:
+          args: endpoints services deploy $GITHUB_WORKSPACE/endpoint.yaml
+          cli: gcloud
+      - uses: actions-hub/gcloud@master
+        name: "update esp in cloud run"
+        env:
+          PROJECT_ID: mm-sandbox-wasm-on-gcp
+          APPLICATION_CREDENTIALS: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+        with:
+          args: run services update endpoints --set-env-vars ENDPOINTS_SERVICE_NAME=endpoints-5fbiknk2ba-uc.a.run.app --region us-central1 --platform managed
+          cli: gcloud
+  cloudfunctions-collect:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions-hub/gcloud@master
+      name: "deploy collect function"
+      env:
+        PROJECT_ID: mm-sandbox-wasm-on-gcp
+        APPLICATION_CREDENTIALS: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+      with:
+        args: functions deploy collect --region us-central1 --source $GITHUB_WORKSPACE/functions/collect  --entry-point collect --trigger-http --runtime nodejs10
+        cli: gcloud
+  cloudfunctions-load:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions-hub/gcloud@master
+        name: "deploy load function"
+        env:
+          PROJECT_ID: mm-sandbox-wasm-on-gcp
+          APPLICATION_CREDENTIALS: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+        with:
+          args: functions deploy load --region us-central1 --source $GITHUB_WORKSPACE/functions/load  --entry-point load --trigger-topic wasm-on-gcp --runtime nodejs10
+          cli: gcloud
+  website:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions-hub/gcloud@master
+        name: "deploy website"
+        env:
+          PROJECT_ID: mm-sandbox-wasm-on-gcp
+          APPLICATION_CREDENTIALS: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+        with:
+          args: rsync -r $GITHUB_WORKSPACE/client gs://mm-sandbox-wasm-on-gcp
+          cli: gsutil

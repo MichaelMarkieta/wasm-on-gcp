@@ -1,0 +1,32 @@
+swagger: '2.0'
+info:
+  title: Backends for WASM
+  description: Running server side logic in Google Cloud Functions for client side WASM
+  version: 1.0.0
+host: endpoints-5fbiknk2ba-uc.a.run.app
+schemes:
+  - https
+produces:
+  - application/json
+x-google-endpoints:
+  - name: endpoints-5fbiknk2ba-uc.a.run.app
+    allowCors: True
+paths:
+  /collect:
+    get:
+      summary: Collect analytics from WASM
+      operationId: collect
+      x-google-backend:
+        address: https://us-central1-mm-sandbox-wasm-on-gcp.cloudfunctions.net/collect
+      security:
+        - api_key: []
+      responses:
+        '200':
+          description: A successful response
+          schema:
+            type: string
+securityDefinitions:
+  api_key:
+    type: "apiKey"
+    name: "key"
+    in: "query"

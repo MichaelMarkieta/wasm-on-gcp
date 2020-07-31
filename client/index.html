@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>WASM on GCP</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4.3.2/css/metro-all.min.css">
+    <style>
+        .bigtoast {font-size:30px;}
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <h2 style="margin:0; padding:20px 10px">github.com/MichaelMarkieta/wasm-on-gcp</h2>
+
+    <form data-role="validator" action="javascript:">
+        <div class="container" style="margin:0; padding:0 0 20px 0">
+            <input data-validate="required" id="apikey" type="password" data-role="input" data-prepend="API Key: ">
+            <span class="invalid_feedback">
+                You must supply an API Key
+            </span>
+        </div>
+
+        <button class="button warning" id="fizz">Fizz</button>
+        <button class="button yellow" id="buzz">Buzz</button>
+        <button class="button info" id="fizzbuzz">FizzBuzz</button>
+    </form>
+</div>
+<script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>
+<script src="wasm_exec.js"></script>
+<script src="index.js"></script>
+</body>
+</html>
