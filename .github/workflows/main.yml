@@ -2,8 +2,6 @@ name: CI
 on:
   push:
     branches: [ master ]
-    paths:
-      - client/**/*
 jobs:
   cloudendpoints:
     runs-on: ubuntu-latest
@@ -49,15 +47,3 @@ jobs:
         with:
           args: functions deploy load --region us-central1 --source $GITHUB_WORKSPACE/functions/load  --entry-point load --trigger-topic wasm-on-gcp --runtime nodejs10
           cli: gcloud
-  website:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - uses: actions-hub/gcloud@master
-        name: "deploy website"
-        env:
-          PROJECT_ID: mm-sandbox-wasm-on-gcp
-          APPLICATION_CREDENTIALS: ${{ secrets.GCP_SERVICE_ACCOUNT }}
-        with:
-          args: rsync -r $GITHUB_WORKSPACE/client gs://mm-sandbox-wasm-on-gcp
-          cli: gsutil
