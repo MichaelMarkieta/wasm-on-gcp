@@ -7,6 +7,9 @@ const table = dataset.table('functions');
 
 function insertHandler(err, apiResponse) {
   console.error(err);
+  for (const x of err){
+    console.error(err[x].errors)
+  }
 }
 
 exports.load = (message, context) => {
@@ -14,5 +17,5 @@ exports.load = (message, context) => {
   const data = JSON.parse(datastring);
   console.log(`Message ${datastring} retrieved from PubSub.`);
 
-  table.insert([data], insertHandler)
+  table.insert(data, insertHandler)
 };
