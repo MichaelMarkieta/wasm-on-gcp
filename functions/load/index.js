@@ -6,8 +6,12 @@ const dataset = bigquery.dataset('analytics');
 const table = dataset.table('functions');
 
 function insertHandler(err, apiResponse) {
-  console.error(err);
-  console.error(err.errors[0].errors[0])
+  for (const x of err.errors){
+    for (const y of err.errors[x-1].errors){
+      console.error(err.errors[x-1].errors[y-1].reason);
+      console.error(err.errors[x-1].errors[y-1].message);
+    }
+  }
 }
 
 exports.load = (message, context) => {
