@@ -7,7 +7,7 @@ const table = dataset.table('functions');
 
 function insertHandler(err, apiResponse) {
   if(err){
-    console.log(err);
+    console.error(err);
     // err.forEach((a,b) => {
     //   console.log(err.errors[b]);
     //   err.errors[b].errors.forEach((c,d) => {
@@ -15,6 +15,9 @@ function insertHandler(err, apiResponse) {
     //     console.error(err.errors[b].errors[d].message);
     //   });
     // });
+  }
+  if(apiResponse){
+    console.log(apiResponse)
   }
 }
 
