@@ -7,7 +7,7 @@ const table = dataset.table('functions');
 
 function insertHandler(err, apiResponse) {
   console.error(err);
-  console.error(err.errors)
+  console.error(err.errors[0].errors[0])
 }
 
 exports.load = (message, context) => {
