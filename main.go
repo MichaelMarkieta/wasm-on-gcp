@@ -20,7 +20,7 @@ func getCallerFuncName() (callerFuncName string) {
 // collect sends an HTTP request to our analytics collection endpoint
 func collect(apikey string) (err error) {
 	callerFuncName := getCallerFuncName()
-	ts := time.Now().UTC()
+	ts := time.Now().Format("2006-01-02 15:04:05.999999999")
 	resp, err := http.Get(fmt.Sprintf("https://endpoints-5fbiknk2ba-uc.a.run.app/collect?key=%s&function=%s&ts=%s", apikey, callerFuncName, ts))
 	if err != nil {
 		log.Printf("Failed to send analytics: %s", err)
