@@ -6,14 +6,16 @@ const dataset = bigquery.dataset('analytics');
 const table = dataset.table('functions');
 
 function insertHandler(err, apiResponse) {
-  console.log(err);
-  // err.forEach((a,b) => {
-  //   console.log(err.errors[b]);
-    // err.errors[b].errors.forEach((c,d) => {
-    //   console.error(err.errors[b].errors[d].reason);
-    //   console.error(err.errors[b].errors[d].message);
+  if(err){
+    console.log(err);
+    // err.forEach((a,b) => {
+    //   console.log(err.errors[b]);
+    //   err.errors[b].errors.forEach((c,d) => {
+    //     console.error(err.errors[b].errors[d].reason);
+    //     console.error(err.errors[b].errors[d].message);
+    //   });
     // });
-  // });
+  }
 }
 
 exports.load = (message, context) => {
