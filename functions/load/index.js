@@ -7,10 +7,11 @@ const table = dataset.table('functions');
 
 function insertHandler(err, apiResponse) {
   err.errors.forEach((a,b) => {
-    err.errors[b].errors.forEach((c,d) => {
-      console.error(err.errors[b].errors[d].reason);
-      console.error(err.errors[b].errors[d].message);
-    });
+    console.log(err.errors[b]);
+    // err.errors[b].errors.forEach((c,d) => {
+    //   console.error(err.errors[b].errors[d].reason);
+    //   console.error(err.errors[b].errors[d].message);
+    // });
   });
 }
 
